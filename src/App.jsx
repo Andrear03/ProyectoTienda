@@ -1,38 +1,47 @@
-import Header from "./components/header"
-import Guitarra from "./components/guitarra"
-import { db } from "./data/db"
-import { useState, useEffect } from "react"
+import Header from "./components/header";
+import Guitarra from "./components/guitarra";
+import {useCart} from "./hooks/cart"
 
 function App() {
-
-  const [data, setData] = useState(db);
-  console.log(data )
+  const {cleancart,
+    decrementaritems,
+    incrementaritems,
+    removecart,
+    addCart,
+    data,
+    cart,
+    isEmpty,total} = useCart() 
 
   return (
     <>
-    <Header/>
-    <main className="container-xl mt-5">
+      <Header
+        removecart={removecart}
+        cart={cart}
+        incrementaritems={incrementaritems}
+        decrementaritems={decrementaritems}
+        cleancart={cleancart}
+        isEmpty={isEmpty}
+        total={total}
+      />
+      <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
         <div className="row mt-5">
-           {data.map((guitarra) => (
-                <Guitarra
-                  key={guitarra.id}
-                  guitarra={guitarra}
-                />
-           ))}
-          
+          {data.map((guitarra) => (
+            <Guitarra
+              key={guitarra.id}
+              guitarra={guitarra}
+              addCart={addCart}
+            />
+          ))}
         </div>
-    </main>
-
-
-    <footer className="bg-dark mt-5 py-5">
+      </main>
+      <footer className="bg-dark mt-5 py-5">
         <div className="container-xl">
-            <p className="text-white text-center fs-4 mt-4 m-md-0">GuitarLA - Todos los derechos Reservados</p>
+          <p className="text-white text-center fs-4 mt-4 m-md-0">GuitarLA - Todos los derechos Reservados</p>
         </div>
-    </footer>
-
+      </footer>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
